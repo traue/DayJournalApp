@@ -6,7 +6,8 @@ struct EditJournalEntryView: View {
     @Environment(\.dismiss) var dismiss
 
     @State var edititingJournalEntry: JournalEntry
-    @State var editMode = true
+    @State var editMode = false
+    @State private var showDeleteConfirmation = false
 
     var body: some View {
 
@@ -35,11 +36,22 @@ struct EditJournalEntryView: View {
             .navigationTitle("Editando")
             .toolbar {
                 Button("Deletar") {
-                    modelContext.delete(edititingJournalEntry)
-                    dismiss()
+                    showDeleteConfirmation = true
                 }
                 .bold()
                 .foregroundColor(.red)
+
+                .confirmationDialog(
+                    "Deletar mesmo?",
+                    isPresented: $showDeleteConfirmation,
+                    titleVisibility: .visible
+                ) {
+                    Button("Deletar", role: .destructive) {
+                        modelContext.delete(edititingJournalEntry)
+                        dismiss()
+                    }
+                    Button("Cancelar", role: .cancel) {}
+                }
 
                 Button("Salvar") {
                     editMode = false
