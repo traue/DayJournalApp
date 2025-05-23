@@ -33,7 +33,7 @@ struct CreateJournalEntreyView: View {
                         get: { rating },
                         set: { rating = $0 }
                     ),
-                    in: 1...5, //testar com 6 na aula
+                    in: 1...8, //testar com 6 na aula
                     step: 1
                 )
                 
